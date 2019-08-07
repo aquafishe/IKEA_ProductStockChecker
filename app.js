@@ -5,8 +5,6 @@ var nodemailer = require('nodemailer');
 
 var productId = 60464407;
 
-//var productId = "S69009475"; // IN STOCK TEST PRODUCT
-
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -17,7 +15,7 @@ var transporter = nodemailer.createTransport({
 
 const mailOptions = {
     from: 'austeny.bot@gmail.com', // sender address
-    to: 'austen.d.young@gmail.com', //carolinetelma97@gmail.com', // list of receivers
+    to: 'austen.d.young@gmail.com, carolinetelma97@gmail.com', // list of receivers
     subject: 'Default Header', // Subject line
     html: '<h2 style="display: inline;">IS SLATTUM BED IN STOCK? </h2>'// plain text body
 };
@@ -36,14 +34,14 @@ var intervalId = setInterval(function(){
         sendEmail();
     }
 
-    if (checkCount == 30){
+    if (checkCount == 120){
+	console.log(mailOptions);
         checkCount = 0;
         sendEmail();
     }
 
     console.log("checkCount: " + checkCount);
-    console.log(mailOptions);
-}, 3000);
+}, 30000);
 
 function sendEmail() {
     console.log("sending email");
@@ -65,8 +63,6 @@ function checkInStock(productId){
     request(url, function(error, response, body){
         if(!error && response.statusCode === 200){
             parseString(body, function(err, result){
-                console.log("successful request call");
-
                 numOfStores = result['ir:ikea-rest'].availability[0].localStore.length;
     
                 for(var i=0; i<numOfStores; i++){
@@ -74,7 +70,9 @@ function checkInStock(productId){
                         var storeJson = result['ir:ikea-rest'].availability[0].localStore[i].stock[0];
                         var currentStock = storeJson.availableStock[0];
                         var inStockProbability = storeJson.inStockProbabilityCode[0];
-    
+
+			console.log(`currentStock: ${currentStock}, Probability: ${inStockProbability}`);
+
                         if (currentStock > 0){
                             mailOptions.subject = `IN STOCK, GO ORDER!!! qty: ${currentStock}`;
                             mailOptions.html += `<h1 style="display: inline; font-size: 50px; color: lime;">YES!</h1>
