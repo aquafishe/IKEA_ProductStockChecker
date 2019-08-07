@@ -8,8 +8,8 @@ var productId = 60464407;
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'austeny.bot@gmail.com',
-        pass: 'lemonade117'
+        user: @@@	//add email@gmail.com here,
+        pass: $$$	//add password to email here
     }
 });
 
