@@ -9,7 +9,7 @@
   "author": "Austen Young",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "nodemailer": "^6.3.0",
     "request": "^2.88.0",
     "xml2js": "^0.4.19"
